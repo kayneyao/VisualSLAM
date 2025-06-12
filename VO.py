@@ -259,7 +259,7 @@ def main():
     vo = VisualOdometry(data_dir)
 
 
-    # play_trip(vo.images)  # Comment out to not play the trip
+    play_trip(vo.images)  # Comment out to not play the trip
 
     gt_path = []
     estimated_path = []
@@ -269,6 +269,7 @@ def main():
         else:
             q1, q2 = vo.get_matches(i)
             transf = vo.get_pose(q1, q2)
+            transf = np.nan_to_num(transf, neginf=0,posinf=0)
             cur_pose = np.matmul(cur_pose, np.linalg.inv(transf))
             print ("\nGround truth pose:\n" + str(gt_pose))
             print ("\n Current pose:\n" + str(cur_pose))
